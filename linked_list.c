@@ -34,11 +34,18 @@ bool is_empty(linked_list list) {
   return tag;
 }
 ptr_to_node insert(linked_list list, int local, elemtype value) {
+  /*************************
+   * 判断插入位置是否合法
+   * 当链表为空的时候也应该插入，所以list.value+1
+   * **********************/
   if(local <= list->value + 1 && local >0) {
     list->value++;
     int counter = 0;
+    /**
+     * 找到需要插入位置之前的一个位置
+     * 从插入位置之前断开
+    */
     while(local - 1 > counter) {
-      // 找到需要插入位置之前的一个位置
       list = list->next;
       counter++;
     }
@@ -52,7 +59,11 @@ ptr_to_node insert(linked_list list, int local, elemtype value) {
   }
 }
 ptr_to_node get_local(linked_list list, elemtype value) {
-  
+  list = list->next;
+  while(list->value != value) {
+    list = list->next;
+  }
+  return list;
 }
 ptr_to_node get_value(linked_list list, int local) {
   if(list->value < local) {
@@ -67,6 +78,8 @@ ptr_to_node get_value(linked_list list, int local) {
   return list;
 }
 bool delete_value(linked_list list, int local) {
+  // 先将表长减一
+  list->value--;
   int counter = 0;
   while(local <= list->value - 1 && local > 0) {
   // 索引到上一个节点，以便能将要删除的节点更改指针。
@@ -78,14 +91,9 @@ bool delete_value(linked_list list, int local) {
   free(delete_node);
 }
 bool destory_list(linked_list list) {
-  ptr_to_node copy_list = list;
-  while(copy_list = NULL) {
-    list = list->next;
-    if(list->next == NULL) {
-      free(list);
-    }
+  while(list->next != NULL) {
+    delete_value(list, list->value);
   }
-  free(copy_list);
 }
 void print_list(linked_list list){
   ptr_to_node list_copyed = list;
@@ -108,9 +116,9 @@ int main() {
 /**************************
  * TODO
  * [x]插入操作
- * []按值查找，返回位
+ * [x]按值查找，返回位
  * [x]按位查找，返回值
  * [x]删除元素
- * []销毁列表
+ * [x]销毁列表
  * [x]打印单链表中的值
  * ************************/
