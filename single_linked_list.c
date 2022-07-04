@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include"linked_list.h"
 
-typedef int elemtype;
 typedef struct node {
   elemtype value;
   struct node *next;
@@ -121,4 +121,5 @@ int main() {
  * [x]删除元素
  * [x]销毁列表
  * [x]打印单链表中的值
+ * []更改链表中的值
  * ************************/
