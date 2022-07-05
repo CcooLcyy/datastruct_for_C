@@ -38,20 +38,17 @@ ptr_to_node insert(linked_list list, int local, elemtype value) {
    * 判断插入位置是否合法
    * 当链表为空的时候也应该插入，所以list.value+1
    * **********************/
-  if(local <= list->value + 1 && local >0) {
-    list->value++;
-    int counter = 0;
-    /**
-     * 找到需要插入位置之前的一个位置
-     * 从插入位置之前断开
-    */
-    while(local - 1 > counter) {
+  list->value++;
+  if(local <= list->value && local >0) {
+    int counter = 1;
+    // 查找到需要插入位置之前的一个节点
+    while(local > counter) {
       list = list->next;
       counter++;
     }
     ptr_to_node now_node = (ptr_to_node)malloc(sizeof(ptr_to_node));
-    now_node->value = value;
     now_node->next = list->next;
+    now_node->value = value;
     list->next = now_node;
     return now_node;
   } else {
