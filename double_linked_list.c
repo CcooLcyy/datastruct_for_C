@@ -83,15 +83,14 @@ bool delete(double_linked_list list, int local) {
       counter++;
     }
     ptr_to_node delete_node = list->next;
-    if(delete_node == NULL) {
+    if(delete_node->next == NULL) {
+      list->next = delete_node->next;
       free(delete_node);
-      list->next = NULL;
     } else {
       list->next = delete_node->next;
       delete_node->next->prev = list;
       free(delete_node);
     }
-
     return true;
   } else {
     return false;
@@ -108,7 +107,15 @@ bool change_value(double_linked_list list, int local, elemtype value) {
   }
 }
 bool destory_list(double_linked_list list) {
-
+  if(list->value <= 0 ) {
+    return false;
+  } else {
+    int cycle_time = list->value;
+    for(int i = 1; i <= cycle_time; i++) {
+      delete(list, list->value);
+    }
+  }
+  return true;
 }
 void print_value(double_linked_list list) {
   list = list->next;
@@ -119,56 +126,11 @@ void print_value(double_linked_list list) {
   printf("\n");
 }
 
-int main() {
-  double_linked_list list = init_list();
-  int input = true;
-  while(input) {
-    printf("* **************************************\n");
-    printf("* 已初始化一个空双链表，请进行如下操作\n");
-    printf("* 0: 退出程序\n");
-    printf("* 1: 指定位置插入数据\n");
-    printf("* 2: 删除指定位置的数据\n");
-    printf("* 3: 修改指定位置的数据\n");
-    printf("* 4: 销毁列表\n");
-    printf("* 5: 判断双链表谁否为空\n");
-    printf("* 6: 打印双链表\n");
-    printf("* 7: 由指定数据生成重复的指定长度双链表\n");
-    printf("* **************************************\n");
-    scanf("%d", &input);
-
-    switch(input){
-    int local;
-    elemtype value;
-
-    case 0:
-      printf("程序结束\n");
-      break;
-    case 1:
-      printf("* 请输入插入的位置和值\n");
-      printf("* 或者使用q键取消本次输入\n");
-      bool cycle_tag = true;
-      while(cycle_tag) {
-        scanf("%d", &local);
-        if(local == 'q' ) {
-          cycle_tag = false;
-        } else {
-          scanf("%d", &value);
-          local = (int)local;
-          insert(list, local, value);
-          printf("! 是否继续插入\n");
-          printf("* 继续插入输入: 1\n");
-          printf("* 取消插入输入: 0\n");
-          scanf("%d", &cycle_tag);
-        }
-      }
-      break;
-    case 6:
-      printf("* 双链表内容如下\n");
-      print_value(list);
-      break;
-    default:
-      printf("需要输入指定的操作\n");
-      break;
-    }
-  }
-}
+// int main() {
+//   double_linked_list list = init_list();
+//   for(int i = 1; i <= 3; i++) {
+//     insert(list, 1, 1);
+//   }
+//   print_value(list);
+//   destory_list(list);
+// }
